@@ -60,7 +60,7 @@ public:
 
 /**
  * @brief A widget with a trackball iteration for a single mesh and a single light source.
- * Extends QGLWidget class to include common methods for using ShaderLib
+ * Extends QGLWidget class to include common methods for using Tucano
  * this widget already has a default camera and light trackball and associated mouse methods
  */
 class QtFlycameraWidget : public QtGlewFlycameraInitializer
@@ -73,7 +73,7 @@ protected:
     Mesh mesh;
 
     /// Flycamera.
-    Flycamera camera;
+    Flycamera* camera;
 
     /// Trackball for manipulating the light position.
     Trackball light_trackball;
@@ -84,12 +84,16 @@ public:
      * @brief Default constructor.
      * @param parent Parent widget.
      */
-    explicit QtFlycameraWidget(QWidget *parent) : QtGlewFlycameraInitializer(parent) {}
+    explicit QtFlycameraWidget(QWidget *parent) : QtGlewFlycameraInitializer(parent){
+		camera = new Flycamera();
+	}
 
     /**
      * @brief Default destructor.
      */
-    ~QtFlycameraWidget () {}
+    ~QtFlycameraWidget (){
+		delete camera;
+	}
 
     /**
      * @brief Initializes openGL and GLEW.
@@ -109,8 +113,8 @@ public:
      */
     virtual void resizeGL (void)
     {
-        camera.setViewport(Eigen::Vector2f ((float)this->width(), (float)this->height()));
-        camera.setPerspectiveMatrix(camera.getFovy(), (float)this->width()/(float)this->height(), 0.1f, 100.0f);
+        camera->setViewport(Eigen::Vector2f ((float)this->width(), (float)this->height()));
+        camera->setPerspectiveMatrix(camera->getFovy(), (float)this->width()/(float)this->height(), 0.1f, 100.0f);
         light_trackball.setViewport(Eigen::Vector2f ((float)this->width(), (float)this->height()));
         updateGL();
     }
@@ -123,8 +127,8 @@ public:
         Eigen::Vector2i size;
         size << this->width(), this->height();
 
-        camera.setPerspectiveMatrix(60.0, (float)this->width()/(float)this->height(), 0.1f, 100.0f);
-        camera.setViewport(Eigen::Vector2f ((float)this->width(), (float)this->height()));
+        camera->setPerspectiveMatrix(60.0, (float)this->width()/(float)this->height(), 0.1f, 100.0f);
+        camera->setViewport(Eigen::Vector2f ((float)this->width(), (float)this->height()));
 
         light_trackball.setRenderFlag(false);
         light_trackball.setViewport(Eigen::Vector2f ((float)this->width(), (float)this->height()));
@@ -180,21 +184,21 @@ protected:
             }
         }
         if (event->key() == Qt::Key_R)
-			camera.reset();
+			camera->reset();
         if (event->key() == Qt::Key_A)
-			camera.strideLeft();
+			camera->strideLeft();
         if (event->key() == Qt::Key_D)
-			camera.strideRight();
+			camera->strideRight();
         if (event->key() == Qt::Key_S)
-			camera.moveBack();
+			camera->moveBack();
         if (event->key() == Qt::Key_W)
-			camera.moveForward();
+			camera->moveForward();
         if (event->key() == Qt::Key_C)
-			camera.moveDown();
+			camera->moveDown();
         if (event->key() == Qt::Key_E)
-			camera.moveUp();	
+			camera->moveUp();	
 
-		camera.updateViewMatrix();
+		camera->updateViewMatrix();
 	
         event->ignore();
         updateGL();
@@ -212,8 +216,8 @@ protected:
         Eigen::Vector2f screen_pos (event->x(), event->y());
 		if (event->button() == Qt::LeftButton)
 		{
-			camera.startRotation(screen_pos);
-			camera.updateViewMatrix();
+			camera->startRotation(screen_pos);
+			camera->updateViewMatrix();
 		}
 		if (event->button() == Qt::RightButton)
 		{
@@ -233,8 +237,8 @@ protected:
         Eigen::Vector2f screen_pos (event->x(), event->y());
 		if (event->buttons() & Qt::LeftButton)
 		{
-			camera.rotate(screen_pos);
-			camera.updateViewMatrix();
+			camera->rotate(screen_pos);
+			camera->updateViewMatrix();
 		}
 		if (event->buttons() & Qt::RightButton)
 		{

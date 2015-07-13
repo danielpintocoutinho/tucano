@@ -41,7 +41,7 @@ namespace Tucano
 class Flycamera : public Tucano::Camera {
 
 
-private:
+protected:
 
     /// Global movement speed
     float speed;
@@ -70,7 +70,7 @@ public:
     /**
      * @brief Resets camera to initial position and orientation
      */
-    void reset (void)
+    virtual void reset (void)
     {
 		start_mouse_pos = Eigen::Vector2f::Zero();
 		translation_vector = Eigen::Vector3f::Zero();
@@ -135,7 +135,7 @@ public:
 	/**
 	 * @brief Compose rotation and translation
 	 */
-	void updateViewMatrix()
+	virtual void updateViewMatrix()
 	{
 		resetViewMatrix();
 
@@ -164,7 +164,7 @@ public:
     /**
      * @brief Translates the view matrix to the left.
      */
-    void strideLeft ( void )
+    virtual void strideLeft ( void )
     {
 		Eigen::Vector3f dir = (Eigen::AngleAxisf(rotation_Y_axis, Eigen::Vector3f::UnitY())) * Eigen::Vector3f(1.0, 0.0, 0.0);
 		translation_vector += dir * speed;
@@ -173,7 +173,7 @@ public:
     /**
      * @brief Translates the view matrix to the right.
      */
-    void strideRight ( void )
+    virtual void strideRight ( void )
     {
 		Eigen::Vector3f dir = (Eigen::AngleAxisf(rotation_Y_axis, Eigen::Vector3f::UnitY())) * Eigen::Vector3f(-1.0, 0.0, 0.0);
 		translation_vector += dir * speed;
@@ -182,7 +182,7 @@ public:
     /**
      * @brief Translates the view matrix back.
      */
-    void moveBack ( void )
+    virtual void moveBack ( void )
     {
 		Eigen::Vector3f dir = (Eigen::AngleAxisf(rotation_Y_axis, Eigen::Vector3f::UnitY())) * Eigen::Vector3f(0.0, 0.0, -1.0);
 		translation_vector += dir * speed;
@@ -191,7 +191,7 @@ public:
     /**
      * @brief Translates the view matrix forward.
      */
-    void moveForward ( void )
+    virtual void moveForward ( void )
     {
 		Eigen::Vector3f dir = (Eigen::AngleAxisf(rotation_Y_axis, Eigen::Vector3f::UnitY())) * Eigen::Vector3f(0.0, 0.0, 1.0);
 		translation_vector += dir * speed;
@@ -200,7 +200,7 @@ public:
     /**
      * @brief Translates the view matrix down.
      */
-    void moveDown ( void )
+    virtual void moveDown ( void )
     {
 		translation_vector += Eigen::Vector3f::UnitY() * speed;
     }
@@ -208,7 +208,7 @@ public:
     /**
      * @brief Translates the view matrix up.
      */
-    void moveUp ( void )
+    virtual void moveUp ( void )
     {
     	translation_vector -= Eigen::Vector3f::UnitY() * speed;
 	}
@@ -237,7 +237,7 @@ public:
 	 * @brief Rotates the camera view direction
 	 * @param new_mouse_pos New mouse position
 	 */
-	void rotate ( Eigen::Vector2f new_mouse_pos )
+	virtual void rotate ( Eigen::Vector2f new_mouse_pos )
 	{
 		Eigen::Vector2f new_position = normalizePosition(new_mouse_pos);
 		Eigen::Vector2f dir2d = new_position - start_mouse_pos;
@@ -260,12 +260,20 @@ public:
             rotation_Y_axis += 2*M_PI;
     
 	}
+	
+	/**
+	 * @brief Rotates the camera view direction around Z axis. Default implementation does nothing.
+	 * @param new_mouse_pos New mouse position
+	 */
+	virtual void rotateZ ( Eigen::Vector2f new_mouse_pos )
+	{}
 
 	/**
 	 * @brief Changes the camera speed.
 	 * @param speed New camera speed.
 	 */
-	void setSpeed( const float& speed ) { this->speed = speed; }
+	void setSpeed( const float& speed )
+	{ this->speed = speed; }
 };
 
 }
