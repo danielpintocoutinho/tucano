@@ -62,34 +62,6 @@ public:
 	 */
 	void updateViewMatrix() override
 	{
-		/*Eigen::Vector3f xAxis = rotation_matrix.row(0);
-		Eigen::Vector3f yAxis = rotation_matrix.row(1);
-		
-		// compute X axis restricted to a rotation around Y axis
-        Eigen::Vector3f rotX = Eigen::AngleAxisf(rotation_Y_axis, yAxis) * xAxis;
-        rotX.normalize();
-
-        // rotate Z axis around Y axis, then rotate new Z axis around X new axis
-		Eigen::Vector3f zAxis = rotation_matrix.row(2);
-        Eigen::Vector3f rotZ = Eigen::AngleAxisf(rotation_Y_axis, yAxis) * zAxis;
-        rotZ = Eigen::AngleAxisf(rotation_X_axis, rotX) * rotZ;
-        rotZ.normalize();
-
-        // rotate Y axis around X new axis
-		Eigen::Vector3f rotY = Eigen::AngleAxisf(rotation_X_axis, rotX) * yAxis;
-		rotY.normalize();
-
-        rotation_matrix.row(0) = rotX;
-        rotation_matrix.row(1) = rotY;
-        rotation_matrix.row(2) = rotZ;
-		
-		resetViewMatrix();
-		view_matrix.rotate (rotation_matrix);
-		view_matrix.translate (translation_vector);
-		
-		rotation_X_axis = 0.0;
-        rotation_Y_axis = 0.0;*/
-		
 		Eigen::Vector3f xAxis = rotation_matrix.row(0);
 		Eigen::Vector3f yAxis = rotation_matrix.row(1);
 		Eigen::Vector3f zAxis = rotation_matrix.row(2);
