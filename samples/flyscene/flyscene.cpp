@@ -31,8 +31,8 @@ void Flyscene::initialize (int width, int height)
 	MeshImporter::loadObjFile(&mesh, "../samples/models/toy.obj");
 	
 	mesh.normalizeModelMatrix();
+
 }
-//Eigen::Vector3f last_pos;
 
 void Flyscene::paintGL (void)
 {

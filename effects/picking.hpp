@@ -67,9 +67,9 @@ public:
         glViewport(viewport[0], viewport[1], viewport[2], viewport[3]);
 
 
-        if (fbo.getWidth() != (viewport[2]-viewport[1]) || fbo.getHeight() != (viewport[3]-viewport[1]))
+        if (fbo.getWidth() != (viewport[2]-viewport[0]) || fbo.getHeight() != (viewport[3]-viewport[1]))
         {
-            fbo.create(viewport[2]-viewport[1], viewport[3]-viewport[1], 1);
+            fbo.create(viewport[2]-viewport[0], viewport[3]-viewport[1], 1);
         }
 
         // sets the FBO first (and only) attachment as output

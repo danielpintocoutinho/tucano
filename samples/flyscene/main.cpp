@@ -14,6 +14,17 @@ void initialize (void)
 	flyscene = new Flyscene();	
 	flyscene->initialize(WINDOW_WIDTH, WINDOW_HEIGHT);
 	cout << "initialized" << endl;
+
+    cout << endl << endl << " ************ usage ************** " << endl;
+    cout << " R : reset camera" << endl;
+    cout << "ASWD : move Left, Rigth, Forward, Back" << endl;
+    cout << "EC : move Up, Down" << endl;
+    cout << "K : add key point" << endl;
+    cout << "SPACE : start/stop camera animation" << endl;
+    cout << ",. : step forward/backward in animation" << endl;
+    cout << "0 : toggle draw control points" << endl;
+    //cout << "9 : toggle draw quaternions" << endl;
+    cout << " ***************** " << endl;
 }
 
 void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
