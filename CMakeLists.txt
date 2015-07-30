@@ -24,23 +24,10 @@ set(TUCANO_DOCUMENTATION_DIR "${PROJECT_SOURCE_DIR}/doc")
 set(TUCANO_EFFECTS_DIR "${PROJECT_SOURCE_DIR}/effects")
 set(TUCANO_SAMPLES_DIR "${PROJECT_SOURCE_DIR}/samples")
 set(TUCANO_SRC_DIR "${PROJECT_SOURCE_DIR}/src")
-set(OSTYPE "$ENV{OSTYPE}")
-if ("${OSTYPE}" MATCHES "FreeBSD")
-	message("-- FreeBSD Operational System")
-	message("-- FreeBSD Configuration")
-	set(FREEBSD_INCLUDE_DIR "/usr/local/include")
-	set(FREEBSD_LIB_DIR "/usr/local/lib")
-	set(FREEBSD_LDFLAGS "-L${FREEBSD_LIB_DIR}")
-	message("-- FREBSD_INCLUDE_DIR ${FREEBSD_INCLUDE_DIR}")
-	message("-- FREBSD_LIB_DIR ${FREEBSD_LIB_DIR}")
-	message("-- FREBSD_LDFLAGS ${FREEBSD_LDFLAGS}")
-endif()
 
 # Build options.
 option(DOC "build documentation" ON)
 option(SAMPLES "build samples" ON)
-
-
 
 find_package(GLEW REQUIRED)
 if(NOT GLEW_FOUND)
@@ -82,7 +69,6 @@ include_directories(
   ${Qt5OpenGL_INCLUDE_DIRS}
   ${TUCANO_EFFECTS_DIR}
   ${TUCANO_SRC_DIR}
-  ${FREEBSD_INCLUDE_DIR}
   )
 
 file(
@@ -99,7 +85,6 @@ add_library(
   TUCANO_LIBRARY OBJECT
   ${TUCANO_SOURCES}
   ${TUCANO_SOURCES_UTILS}
-  ${FREEBSD_LIB_INCLUDE}
   )
 
 install(
@@ -119,6 +104,5 @@ endif()
 if(SAMPLES)
   # Put executable / compiled files in the binary directory.
   set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${TUCANO_BINARY_DIR})
-	set(CMAKE_LD_FLAGS "-L/usr/local/lib")
   add_subdirectory(${TUCANO_SAMPLES_DIR})
 endif()

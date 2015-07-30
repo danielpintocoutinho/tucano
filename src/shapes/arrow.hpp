@@ -21,7 +21,7 @@
  */
 
 #ifndef __ARROW__
-#define __ARROW__
+#define __ARROQ__
 
 #include "mesh.hpp"
 #include <Eigen/Dense>

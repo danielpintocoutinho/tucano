@@ -28,19 +28,6 @@ public:
      **/
     virtual void paintGL();
 
-    /**
-     * @brief setMeshFile
-     * @param fn
-     * New function to setup a meshFile var
-     */
-    void setMeshFile(string fn);
-    /**
-     * @brief setShaderDir
-     * @param dir
-     * New function to setup a shaderVar
-     */
-    void setShaderDir(string dir);
-
 
 signals:
     
@@ -48,13 +35,6 @@ public slots:
     
 private:
 
-    /**
-     * @brief meshFile
-     * Create the two private vars to handle
-     * a Mesh File and Shaders Dir
-     */
-    string meshFile;
-    string shaderDir;
     Effects::Phong phong;
 };
 
