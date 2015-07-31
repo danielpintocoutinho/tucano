@@ -348,8 +348,8 @@ public:
      * @param right Right plane for orthographic view.
      * @param bottom Bottom plane for orthographic view.
      * @param top Top lane for orthographic view.
-     * @param near Near plane for orthographic view.
-     * @param far Far plane for orthographic view.
+     * @param near_plane Near plane for orthographic view.
+     * @param far_plane Far plane for orthographic view.
      * @return Return the created orthographic matrix.
      */
     Eigen::Matrix4f setTrackballOrthographicMatrix (float left, float right, float bottom, float top, float near_plane, float far_plane)
