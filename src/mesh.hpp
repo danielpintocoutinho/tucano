@@ -202,6 +202,8 @@ public:
  **/
 class Mesh : public Model {
 
+    /// Variable indicating if there will be tessellation
+    bool willTessellate;
 public:
 
     /**
@@ -214,6 +216,7 @@ public:
         numberOfNormals = 0;
         numberOfElements = 0;
         numberOfTexCoords = 0;
+        willTessellate = false;
 
         radius = 1.0;
         scale = 1.0;
@@ -549,6 +552,10 @@ public:
             GLint loc = shader->getAttributeLocation(vertex_attributes[i].getName().c_str());
             vertex_attributes[i].setLocation(loc);
         }
+        if (shader->getTessellationEvaluationShader() != 0)
+            willTessellate = true;
+        else
+            willTessellate = false;
     }
 
 	void setAttributeLocation (const Shader& shader)
@@ -735,6 +742,16 @@ public:
     }
 
     /**
+     * @brief Call the draw method for rendering patches.
+     * This method requires that a index buffer has been created.
+     */
+    virtual void renderPatches(void)
+    {
+        glPatchParameteri(GL_PATCH_VERTICES, 3);
+        glDrawElements(GL_PATCHES, numberOfElements,GL_UNSIGNED_INT, 0);
+    }
+
+    /**
      * @brief Render the mesh triangles.
      * The method binds the buffers, calls the method to render triangles, and then unbinds all buffers.
      * Note that a index buffer is necessary.
@@ -745,7 +762,10 @@ public:
         if (numberOfElements == 0)
             renderPoints();
         else
-            renderElements();
+            if (willTessellate)
+                renderPatches();
+            else
+                renderElements();
         unbindBuffers();
     }
 
